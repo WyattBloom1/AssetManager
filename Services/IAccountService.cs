@@ -1,17 +1,22 @@
-﻿using JobManagerAPI_v4.Models;
+﻿using AssetManager.Models;
+using JobManagerAPI_v4.Models;
 
 namespace JobManagerAPI_v4.Services
 {
     public interface IAccountService
     {
-        int CreateAccount(Account account);
+        Task<int> CreateAccount(Account account);
 
-        List<Account> GetAllAccounts(int accountOwner);
+        Task<IEnumerable<Account>> GetAllAccounts();
 
-        Account GetAccountById(int accountId);
+        Task<Account> GetAccountById(int accountId);
 
-        void SetAccountBalance(int accountId, int accountBalance);
+        Task<IEnumerable<AccountHistory>> GetAccountHistory(int accountId);
 
-        void UpdateAccount(Account account);
+        Task<bool> SetAccountBalance(int accountId, float accountBalance);
+
+        Task<bool> UpdateAccount(Account account);
+
+        Task<bool> DeleteAccount(int accountId);
     }
 }

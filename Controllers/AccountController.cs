@@ -1,6 +1,11 @@
-﻿using JobManagerAPI_v4.Models;
+﻿using AssetManager.Models;
+using AssetManager.Repository.SqlServer;
+using AssetManager.Repository.SqlServer.Accounts;
+using JobManagerAPI_v4.Models;
 using JobManagerAPI_v4.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobManagerAPI_v4.Controllers
 {
@@ -9,6 +14,7 @@ namespace JobManagerAPI_v4.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+
         public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
@@ -20,21 +26,10 @@ namespace JobManagerAPI_v4.Controllers
         /// </summary>
         /// <param name="searchKey"></param>
         /// <returns>Order List</returns>
-        public ActionResult<List<Account>> GetAllAccounts(int ownerId)
+        public async Task<IEnumerable<Account>> GetAllAccounts()
         {
-            try
-            {
-                if(ownerId == 0)
-                {
-                    return Ok(_accountService.GetAllAccounts(0));
-                }
-                return Ok(_accountService.GetAllAccounts(1));
-            }
-            catch (Exception ex)
-            {
-                //Log the error i.e., ex.Message
-                return NotFound("Order not found");
-            }
+            IEnumerable<Account> accounts = await _accountService.GetAllAccounts();
+            return accounts;
         }
 
         [HttpGet("{accountId}")]
@@ -56,14 +51,37 @@ namespace JobManagerAPI_v4.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult<string> AddAccount(Account account)
+        [HttpGet("{accountId}/History")]
+        /// <summary>
+        ///  Returns the individual order of Customer. Assume we have one customer for now
+        /// </summary>
+        /// <param name="searchKey"></param>
+        /// <returns>Order</returns>
+        public async Task<IEnumerable<AccountHistory>> GetAccountHistory(int accountId)
         {
-            Console.WriteLine("Here");
             try
             {
-                int accountId = _accountService.CreateAccount(account);
-                return StatusCode(201, accountId);
+                IEnumerable<AccountHistory> accountHistory = await _accountService.GetAccountHistory(accountId);
+                return accountHistory;
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //Log the error i.e., ex.Message
+                //return NotFound("Account not found");
+            }
+        }
+
+        [HttpPost("{accountId}/SetBalance")]
+        public async Task<ActionResult<int>> AddAccount(int accountId, float accountBalance)
+        {
+            try
+            {
+                await _accountService.SetAccountBalance(accountId, accountBalance);
+                return accountId;
+
+                //int accountId = _accountService.CreateAccount(account);
+                //return StatusCode(201, accountId);
             }
             catch (Exception ex)
             {
@@ -90,6 +108,20 @@ namespace JobManagerAPI_v4.Controllers
             {
                 //Log the error i.e., ex.Message
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public ActionResult<bool> DeleteAccount(int accountId)
+        {
+            try
+            {
+                _accountService.DeleteAccount(accountId);
+                return StatusCode(200, true);
+            }
+            catch
+            {
+                throw;
             }
         }
     }

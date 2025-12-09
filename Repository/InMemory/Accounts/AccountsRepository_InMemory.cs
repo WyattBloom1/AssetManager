@@ -1,8 +1,8 @@
 ﻿using JobManagerAPI_v4.Models;
 
-namespace JobManagerAPI_v4.Repository
+namespace AssetManager.Store.InMemory.Accounts
 {
-    public class AccountRepository : IAccountRepository
+    public class AccountsRepository_InMemory : IAccountsRepository_InMemory
     {
         static List<Account> accounts = new List<Account>();
         static int _accountId = 0;
@@ -24,7 +24,7 @@ namespace JobManagerAPI_v4.Repository
 
         public List<Account> GetAllAccounts(int accountOwner)
         {
-            if(accountOwner == 0)
+            if (accountOwner == 0)
                 return accounts;
             else
                 return accounts.FindAll(account => account.AccountOwner == accountOwner);
@@ -40,7 +40,7 @@ namespace JobManagerAPI_v4.Repository
 
             }
         }
-         
+
         public void UpdateAccount(Account account)
         {
             Account accountToUpdate = accounts.First(_account => _account.AccountId == account.AccountId);
