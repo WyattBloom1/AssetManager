@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JobManagerAPI_v4.Models
+namespace AssetManager.Models
 {
     public class Account
     {
@@ -10,10 +10,12 @@ namespace JobManagerAPI_v4.Models
         public bool IsDebt { get; set; }
         public bool IncludeInTotal { get; set; }
         public int AccountOwner {  get; set; }
-        public int AccountBalance { get; set; }
+        public decimal AccountBalance { get; set; }
+
+        //System.Int32 AccountId, System.String AccountName, System.Int32 AccountType, System.Boolean IsDebt, System.Boolean IncludeInTotal, System.Int32 AccountOwner, System.Int32 AccountBalance
 
         [JsonConstructor]
-        public Account(int accountId, string accountName, int accountType, bool isDebt, bool includeInTotal, int accountOwner, int accountBalance)
+        public Account(int accountId, string accountName, int accountType, bool isDebt, bool includeInTotal, int accountOwner, decimal accountBalance)
         {
             AccountId = accountId;
             AccountName = accountName;

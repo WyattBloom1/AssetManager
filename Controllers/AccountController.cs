@@ -1,13 +1,8 @@
 ﻿using AssetManager.Models;
-using AssetManager.Repository.SqlServer;
-using AssetManager.Repository.SqlServer.Accounts;
-using JobManagerAPI_v4.Models;
-using JobManagerAPI_v4.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using AssetManager.Services.Accounts;
 
-namespace JobManagerAPI_v4.Controllers
+namespace AssetManager.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -17,6 +12,7 @@ namespace JobManagerAPI_v4.Controllers
 
         public AccountController(IAccountService accountService)
         {
+            //_accountService = accountService;
             _accountService = accountService;
         }
 
@@ -73,7 +69,7 @@ namespace JobManagerAPI_v4.Controllers
         }
 
         [HttpPost("{accountId}/SetBalance")]
-        public async Task<ActionResult<int>> AddAccount(int accountId, float accountBalance)
+        public async Task<ActionResult<int>> AddAccount(int accountId, decimal accountBalance)
         {
             try
             {

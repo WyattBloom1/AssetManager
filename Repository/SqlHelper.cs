@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-
-namespace AssetManager
+﻿namespace AssetManager.SqlServer
 {
     public class SqlHelper<T>
     {

@@ -1,4 +1,4 @@
-﻿using JobManagerAPI_v4.Models;
+﻿using AssetManager.Models;
 
 namespace AssetManager.Store.InMemory.Accounts
 {

@@ -1,18 +1,18 @@
-﻿using JobManagerAPI_v4.Models;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
 using Dapper;
 using AssetManager.Models;
+using AssetManager.SqlServer;
 
 namespace AssetManager.Repository.SqlServer.Accounts
 {
-    public class AccountsRepository : IAccountsRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly string connectionString;
-        private readonly SqlHelper<AccountsRepository> sqlHelper;
+        private readonly SqlHelper<AccountRepository> sqlHelper;
 
 
-        public AccountsRepository(IConfiguration configuration)
+        public AccountRepository(IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("SqlServer");
             if (connectionString == null)
@@ -21,11 +21,11 @@ namespace AssetManager.Repository.SqlServer.Accounts
             }
 
             this.connectionString = connectionString;
-            sqlHelper = new SqlHelper<AccountsRepository>();
+            sqlHelper = new SqlHelper<AccountRepository>();
         }
 
 
-        public async Task<int> CreateAccount(Account account)
+        public async Task<int> Create(Account account)
         {
             await using var connection = new SqlConnection(connectionString);
             {
@@ -58,7 +58,7 @@ namespace AssetManager.Repository.SqlServer.Accounts
             }
         }
 
-        public async Task<IEnumerable<Account>> GetAllAccounts()
+        public async Task<IEnumerable<Account>> GetAll()
         {
             int ownerId = 0;
 
@@ -80,7 +80,7 @@ namespace AssetManager.Repository.SqlServer.Accounts
             );
         }
 
-        public async Task<bool> DeleteAccount(int accountId)
+        public async Task<bool> Delete(int accountId)
         {
             await using var connection = new SqlConnection(this.connectionString);
             await connection.ExecuteAsync(
@@ -91,7 +91,7 @@ namespace AssetManager.Repository.SqlServer.Accounts
             return true;
         }
 
-        public async Task<Account?> GetAccountById(int accountId)
+        public async Task<Account?> GetById(int accountId)
         {
             await using var connection = new SqlConnection(this.connectionString);
             return await connection.QuerySingleAsync<Account>(
@@ -112,12 +112,18 @@ namespace AssetManager.Repository.SqlServer.Accounts
         }
 
 
-        public Task<bool> UpdateAccount(int accountId, Account account)
+        public async Task<bool> Update(Account updateObj)
         {
-            throw new NotImplementedException();
+            await using var connection = new SqlConnection(this.connectionString);
+            await connection.ExecuteAsync(
+                sqlHelper.GetSqlFromEmbeddedResource("Update"),
+                new { updateObj },
+                commandType: CommandType.Text
+            );
+            return true;
         }
 
-        public async Task<bool> UpdateAccountBalance(int accountId, float newBalance)
+        public async Task<bool> UpdateAccountBalance(int accountId, decimal newBalance)
         {
             await using var connection = new SqlConnection(connectionString);
             await connection.ExecuteAsync(

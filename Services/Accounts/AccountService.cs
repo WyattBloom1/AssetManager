@@ -1,14 +1,13 @@
 ﻿using AssetManager.Models;
 using AssetManager.Repository.SqlServer.Accounts;
-using JobManagerAPI_v4.Models;
 
-namespace JobManagerAPI_v4.Services
+namespace AssetManager.Services.Accounts
 {
     public class AccountService : IAccountService
     {
-        private readonly IAccountsRepository _accountRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public AccountService(IAccountsRepository accountRepository)
+        public AccountService(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
         }
@@ -20,13 +19,13 @@ namespace JobManagerAPI_v4.Services
                 if (!validateInputs(account))
                     throw new Exception("ERROR_InvalidInput");
 
-                int accountId = await _accountRepository.CreateAccount(account);
+                int accountId = await _accountRepository.Create(account);
                 if (accountId == 0)
                     throw new Exception("ERROR_CreateAccountFailed");
 
                 return accountId;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 throw;
@@ -52,7 +51,7 @@ namespace JobManagerAPI_v4.Services
                 if (accountId == 0)
                     throw new Exception("ERROR_InvalidInput");
 
-                Account? accountById = await _accountRepository.GetAccountById(accountId);
+                Account? accountById = await _accountRepository.GetById(accountId);
                 if (accountById == null)
                     throw new Exception("ERROR_InvalidAccountId");
 
@@ -73,11 +72,11 @@ namespace JobManagerAPI_v4.Services
                 if (accountId == 0)
                     throw new Exception("ERROR_InvalidInput");
 
-                IEnumerable<AccountHistory> accountById = await _accountRepository.GetAccountHistory(accountId);
-                if (accountById == null)
+                IEnumerable<AccountHistory> accountHistory = await _accountRepository.GetAccountHistory(accountId);
+                if (accountHistory == null)
                     throw new Exception("ERROR_InvalidAccountId");
 
-                return accountById;
+                return accountHistory;
             }
             catch
             {
@@ -89,15 +88,15 @@ namespace JobManagerAPI_v4.Services
         {
             try
             {
-                return await _accountRepository.GetAllAccounts();
-            } 
+                return await _accountRepository.GetAll();
+            }
             catch
             {
                 throw;
             }
         }
 
-        public async Task<bool> SetAccountBalance(int accountId, float accountBalance)
+        public async Task<bool> SetAccountBalance(int accountId, decimal accountBalance)
         {
             try
             {
@@ -117,9 +116,9 @@ namespace JobManagerAPI_v4.Services
                 if (validateInputs(account))
                     throw new Exception("ERROR_InvalidInputs");
 
-                await _accountRepository.UpdateAccount(account.AccountId, account);
+                await _accountRepository.Update(account);
                 return true;
-            } 
+            }
             catch
             {
                 throw;
@@ -133,7 +132,7 @@ namespace JobManagerAPI_v4.Services
                 if (accountId == 0)
                     throw new Exception("ERROR_InvalidInput");
 
-                await _accountRepository.DeleteAccount(accountId);
+                await _accountRepository.Delete(accountId);
                 return true;
             }
             catch

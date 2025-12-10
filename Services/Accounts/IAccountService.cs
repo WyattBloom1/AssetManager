@@ -1,7 +1,6 @@
 ﻿using AssetManager.Models;
-using JobManagerAPI_v4.Models;
 
-namespace JobManagerAPI_v4.Services
+namespace AssetManager.Services.Accounts
 {
     public interface IAccountService
     {
@@ -13,7 +12,7 @@ namespace JobManagerAPI_v4.Services
 
         Task<IEnumerable<AccountHistory>> GetAccountHistory(int accountId);
 
-        Task<bool> SetAccountBalance(int accountId, float accountBalance);
+        Task<bool> SetAccountBalance(int accountId, decimal accountBalance);
 
         Task<bool> UpdateAccount(Account account);
 

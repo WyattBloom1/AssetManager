@@ -1,0 +1,3 @@
+﻿DELETE
+FROM TABLE_NAME
+WHERE RowId = @RowId

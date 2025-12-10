@@ -1,0 +1,2 @@
+﻿SELECT *
+FROM TABLE_NAME
