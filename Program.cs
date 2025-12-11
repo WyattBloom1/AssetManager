@@ -5,6 +5,10 @@ using AssetManager.Repository.SqlServer.Transactions;
 using AssetManager.Services.Accounts;
 using AssetManager.Services.AccountTypes;
 using AssetManager.Services.Transactions;
+using AssetManager.Helpers.PasswordHelper;
+using AssetManager.Helper;
+using Microsoft.AspNetCore.Identity;
+using AssetManager.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +25,10 @@ builder.Services.AddScoped<IAccountTypeRepository, AccountTypeRepository>();
 builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
-//builder.Services.AddDbContext<AccountContext>();
+
+//builder.Services.AddTransient<IPasswordHelper, PasswordHelper>();
+builder.Services.AddScoped<IPasswordHelper, PasswordHelper>();
+builder.Services.AddTransient<AuthMiddleware>();
 
 var app = builder.Build();
 
@@ -35,6 +42,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<AuthMiddleware>();
 
 app.MapControllers();
 

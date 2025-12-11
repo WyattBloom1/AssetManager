@@ -21,11 +21,6 @@
     <None Remove="Repository\SqlServer\AccountTypes\Sql\GetAll.sql" />
     <None Remove="Repository\SqlServer\AccountTypes\Sql\GetById.sql" />
     <None Remove="Repository\SqlServer\AccountTypes\Sql\Update.sql" />
-    <None Remove="Repository\SqlServer\Categories\Sql\Create.sql" />
-    <None Remove="Repository\SqlServer\Categories\Sql\Delete.sql" />
-    <None Remove="Repository\SqlServer\Categories\Sql\GetAll.sql" />
-    <None Remove="Repository\SqlServer\Categories\Sql\GetById.sql" />
-    <None Remove="Repository\SqlServer\Categories\Sql\Update.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\Create.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\Delete.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\GetAll.sql" />
@@ -56,11 +51,6 @@
     <EmbeddedResource Include="Repository\SqlServer\AccountTypes\Sql\GetAll.sql" />
     <EmbeddedResource Include="Repository\SqlServer\AccountTypes\Sql\GetById.sql" />
     <EmbeddedResource Include="Repository\SqlServer\AccountTypes\Sql\Update.sql" />
-    <EmbeddedResource Include="Repository\SqlServer\Categories\Sql\Create.sql" />
-    <EmbeddedResource Include="Repository\SqlServer\Categories\Sql\Delete.sql" />
-    <EmbeddedResource Include="Repository\SqlServer\Categories\Sql\GetAll.sql" />
-    <EmbeddedResource Include="Repository\SqlServer\Categories\Sql\GetById.sql" />
-    <EmbeddedResource Include="Repository\SqlServer\Categories\Sql\Update.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\Create.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\Delete.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\GetAll.sql" />

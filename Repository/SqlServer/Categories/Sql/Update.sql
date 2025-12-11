@@ -1,4 +1,0 @@
-﻿Update TABLE_NAME
-SET 
-	COLUMN_1		= isnull(@INPUT_1, COLUMN_1)
-WHERE RowId = @RowId

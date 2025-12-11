@@ -32,7 +32,7 @@ namespace AssetManager.Repository.SqlServer.Users
             try {
                 return await connection.QuerySingleAsync<int>(
                     sqlHelper.GetSqlFromEmbeddedResource("Create"),
-                    user.toInputParameters(),
+                    user.toInputParams(),
                     commandType: CommandType.Text);
             }
             catch (SqlException ex)
@@ -44,11 +44,11 @@ namespace AssetManager.Repository.SqlServer.Users
             }
         }
 
-        public async Task<IEnumerable<Object>> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
             try {
                 await using var connection = new SqlConnection(connectionString);
-                return await connection.QueryAsync<Object>(
+                return await connection.QueryAsync<User>(
                     sqlHelper.GetSqlFromEmbeddedResource("GetAll"),
                     commandType: CommandType.Text
                 );
@@ -59,14 +59,14 @@ namespace AssetManager.Repository.SqlServer.Users
             }
         }
 
-        public async Task<Object?> GetById(int rowId)
+        public async Task<User?> GetById(int rowId)
         {
             try
             {
                 var parameters = new { };
 
                 await using var connection = new SqlConnection(this.connectionString);
-                return await connection.QuerySingleAsync<AccountType>(
+                return await connection.QuerySingleAsync<User>(
                     sqlHelper.GetSqlFromEmbeddedResource("GetId"),
                     parameters,
                     commandType: CommandType.Text
@@ -79,7 +79,7 @@ namespace AssetManager.Repository.SqlServer.Users
 
         }
 
-        public async Task<bool> Update(Object updateObj)
+        public async Task<bool> Update(User updateObj)
         {
             try
             {
