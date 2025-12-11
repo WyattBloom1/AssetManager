@@ -1,7 +1,7 @@
 ﻿SELECT 
 	UserId,
 	UserName,
+	UserEmail,
 	PasswordHash,
-	Salt,
-	Email
+	Salt
 FROM Users

@@ -25,6 +25,7 @@
     <None Remove="Repository\SqlServer\Users\Sql\Delete.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\GetAll.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\GetById.sql" />
+    <None Remove="Repository\SqlServer\Users\Sql\GetByUserName.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\Update.sql" />
     <None Remove="Repository\SqlServer\TemplateRepository\Sql\Create.sql" />
     <None Remove="Repository\SqlServer\TemplateRepository\Sql\Delete.sql" />
@@ -54,6 +55,7 @@
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\Create.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\Delete.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\GetAll.sql" />
+    <EmbeddedResource Include="Repository\SqlServer\Users\Sql\GetByUserName.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\GetById.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\Update.sql" />
     <EmbeddedResource Include="Repository\SqlServer\TemplateRepository\Sql\Create.sql" />
@@ -71,6 +73,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />

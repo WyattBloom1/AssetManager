@@ -19,8 +19,8 @@ namespace AssetManager.Controllers
         [HttpPost]
         public ActionResult GetPassHash(string password)
         {
-            return Ok("Hashed Pass: " + _passwordHelper.HashPassword(password));
-            //return Ok("SUCCESS");
+            //return Ok("Hashed Pass: " + _passwordHelper.HashPassword(password));
+            return Ok("SUCCESS");
         }
 
         [HttpPost("TestPass")]

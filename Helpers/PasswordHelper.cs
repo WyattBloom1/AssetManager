@@ -1,7 +1,4 @@
 using AssetManager.Models;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Identity;
-using System.Data.SqlTypes;
 using System.Security.Cryptography;
 
 
@@ -9,49 +6,72 @@ namespace AssetManager.Helpers.PasswordHelper
 {
     public interface IPasswordHelper
     {
-        string HashPassword(string password);
-        string VerifyPassword(string hashedPassword, string password, string salt);
+        string GetSalt();
+        string HashPassword(string password, string salt);
+        bool VerifyPassword(string hashedPassword, string password, string salt);
+        User GetUserObjectWithHashedPassword(string userName, string password);
     }
 
-    public class PasswordHelper : IPasswordHelper //IPasswordHasher<User>
+    public class PasswordHelper : IPasswordHelper
     {
+        // Key size in bytes
+        const int keySize = 256 / 8;
+        // Number of iterations for the PBKDF2 algorithm
+        const int iterations = 600000;
 
-        public string HashPassword(string password)
+        /// <summary>
+        /// Get a random cryptographic salt value to use in the password hashing process
+        /// </summary>
+        /// <returns>string</returns>
+        public string GetSalt()
         {
-            const int keySize = 256 / 8;
             var salt = RandomNumberGenerator.GetBytes(keySize);
 
-
-            Console.WriteLine("Salt: " + salt);
-            string encryptedPassword = this.EncryptPassword(password, salt);
-
             string saltString = Convert.ToBase64String(salt);
-            return encryptedPassword + " | " + saltString;
+            return saltString;
         }
 
-        private string EncryptPassword(string password, byte[] salt)
+        /// <summary>
+        /// Hash a password with a given salt using PBKDF2 algorithm
+        /// </summary>
+        /// <returns>string</returns>
+        public string HashPassword(string password, string salt)
         {
-            const int keySize = 256 / 8;
-            const int iterations = 600000;
-            var key = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, HashAlgorithmName.SHA256, keySize);
-            var base64 = Convert.ToBase64String(key);
-
-            return base64;
-        }
-
-        public string VerifyPassword(string hashedPassword, string password, string salt)
-        {
+            // Convert the salt string to a Byte array
             byte[] saltArray = Convert.FromBase64String(salt);
-            string newPass = EncryptPassword(password, saltArray);
 
+            // Encrypt the password with the salt and return the encrypted password as a base64 string
+            var key = Rfc2898DeriveBytes.Pbkdf2(password, saltArray, iterations, HashAlgorithmName.SHA256, keySize);
+            var encryptedPassword = Convert.ToBase64String(key);
 
-            string saltString = Convert.ToBase64String(saltArray);
-            bool isValid = newPass == hashedPassword;
+            return encryptedPassword;
+        }
 
-            //if (newPass == hashedPassword)
-                return isValid + " | " + newPass + " | " + hashedPassword;
-            //else
-                //return false;
+        /// <summary>
+        /// Get a User object with hashed password and salt
+        /// </summary>
+        /// <returns>User</returns>
+        public User GetUserObjectWithHashedPassword(string userName, string password)
+        {
+            string salt = this.GetSalt();
+            string hashedPassword = this.HashPassword(password, salt);
+
+            User user = new User(userName, hashedPassword, salt);
+            return user;
+        }
+
+        /// <summary>
+        /// Verify a password against a hashed password and salt
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool VerifyPassword(string password, string hashedPassword, string salt)
+        {
+            string newPass = HashPassword(password, salt);
+
+            if (newPass == hashedPassword)
+                return true;
+            else
+                return false;
         }
     }
 }

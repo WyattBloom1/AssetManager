@@ -1,10 +1,12 @@
 ﻿using AssetManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using AssetManager.Services.Accounts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AssetManager.Controllers
 {
-    [ApiController]
+    [ApiController, Authorize]
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
@@ -16,7 +18,7 @@ namespace AssetManager.Controllers
             _accountService = accountService;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         /// <summary>
         ///  Returns all the orders of Customer. Assume we have one customer for now
         /// </summary>
@@ -48,11 +50,6 @@ namespace AssetManager.Controllers
         }
 
         [HttpGet("{accountId}/History")]
-        /// <summary>
-        ///  Returns the individual order of Customer. Assume we have one customer for now
-        /// </summary>
-        /// <param name="searchKey"></param>
-        /// <returns>Order</returns>
         public async Task<IEnumerable<AccountHistory>> GetAccountHistory(int accountId)
         {
             try

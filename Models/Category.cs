@@ -6,9 +6,9 @@ namespace AssetManager.Models
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = string.Empty;
-        public string CategoryDescription { get; set; }
+        public string CategoryDescription { get; set; } = string.Empty;
         public bool IsOutput { get; set; }
-        public string Icon { get; set; }
+        public string Icon { get; set; } = string.Empty;
 
         [JsonConstructor]
         public Category(int categoryId, string categoryName, string categoryDescription, bool isOutput, string icon)

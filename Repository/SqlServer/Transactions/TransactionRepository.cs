@@ -49,7 +49,8 @@ namespace AssetManager.Repository.SqlServer.Transactions
                             throw new Exception("ERROR_CreateFailed");
                     }
                     throw;
-                } catch
+                }
+                catch
                 {
                     throw;
                 }

@@ -2,6 +2,32 @@
 
 namespace AssetManager.Models
 {
+    //{
+    //    get
+    //    {
+    //        return this.Password;
+    //    }
+    //    set
+    //    {
+    //        string hashedPassword = value;
+    //        this.PasswordHash = hashedPassword;
+    //    }
+    //}
+
+    public class UserLogin
+    {
+        public string UserName { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+
+        public bool validate()
+        {
+            if (string.IsNullOrEmpty(this.UserName) || string.IsNullOrEmpty(this.Password))
+                return false;
+
+            return true;
+        }
+    }
+
     public abstract class BaseUser
     {
         public string UserName { get; set; } = string.Empty;
@@ -12,29 +38,25 @@ namespace AssetManager.Models
     public class User : BaseUser
     {
         public int UserId { get; set; }
-
-        [JsonIgnore]
-        public string PasswordHash {
-            get
-            {
-                return this.Password;
-            }
-            set
-            {
-                string hashedPassword = value;
-                this.PasswordHash = hashedPassword;
-            }
-        }
+        public string UserEmail { get; set; } = string.Empty;
+        public string PasswordHash { get; set; } = string.Empty;
         public string Salt { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
 
-        public User(int userId, string userName, string passwordHash, string salt, string email)
+        //System.Int32 UserId, System.String UserName, System.String PasswordHash, System.String Salt, System.String UserEmail
+        public User(int userId, string userName, string userEmail, string passwordHash, string salt)
         {
             this.UserId = userId;
             this.UserName = userName;
+            this.UserEmail = userEmail;
             this.PasswordHash = passwordHash;
-            this.Salt = Salt;
-            this.Email = email;
+            this.Salt = salt;
+        }
+
+        public User(string userName, string passwordHash, string salt)
+        {
+            this.UserName = userName;
+            this.PasswordHash = passwordHash;
+            this.Salt = salt;
         }
 
         public Object toInputParams()
@@ -45,7 +67,7 @@ namespace AssetManager.Models
                 UserName = this.UserName,
                 PasswordHash = this.PasswordHash,
                 Salt = this.Salt,
-                Email = this.Email
+                UserEmail = this.UserEmail
             };
         }
     }

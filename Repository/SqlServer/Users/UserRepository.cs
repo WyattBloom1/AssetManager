@@ -24,13 +24,17 @@ namespace AssetManager.Repository.SqlServer.Users
             sqlHelper = new SqlHelper<UserRepository>();
         }
 
-        public async Task<int> Create(User user)
+
+        public Task<int> Create(User createObj)
+        { throw new NotImplementedException(); }
+
+        public async Task<User> CreateUser(User user)
         {
             await using var connection = new SqlConnection(connectionString);
             var parameters = new{ };
 
             try {
-                return await connection.QuerySingleAsync<int>(
+                return await connection.QuerySingleAsync<User>(
                     sqlHelper.GetSqlFromEmbeddedResource("Create"),
                     user.toInputParams(),
                     commandType: CommandType.Text);
@@ -40,6 +44,42 @@ namespace AssetManager.Repository.SqlServer.Users
                 if (ex.Number == 2627)
                     throw new Exception("ERROR_CreateFailed"); // DuplicateKeyException();
 
+                throw;
+            }
+        }
+
+        public async Task<User?> GetByUserName(string userName) 
+        {
+            try
+            {
+                await using var connection = new SqlConnection(this.connectionString);
+                return await connection.QuerySingleAsync<User>(
+                    sqlHelper.GetSqlFromEmbeddedResource("GetByUserName"),
+                    new { UserName = userName },
+                    commandType: CommandType.Text
+                );
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 2627:
+                        // TODO: Implement custom exception type                            
+                        // DuplicateKeyException();
+                        throw new Exception("ERROR_DuplicateKeyException");
+                    case 547:
+                        // TODO: Implement custom exception for foreign key violation
+                        throw new Exception("ERROR_ForeignKeyViolation");
+                    // Row not found
+                    case 50001:
+                        throw new Exception("ERROR_UserNotFound");
+                    default:
+                        throw new Exception("ERROR_CreateFailed");
+                }
+                throw;
+            }
+            catch
+            {
                 throw;
             }
         }
