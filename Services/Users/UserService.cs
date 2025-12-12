@@ -137,5 +137,46 @@ namespace AssetManager.Services.Users
                 throw;
             }
         }
+
+        public async Task<int> CreateRefreshToken(RefreshTokens refreshToken)
+        {
+            try {
+                return await _repository.CreateRefreshToken(refreshToken);
+            }
+            catch {
+                throw;
+            }
+        }
+
+        public async Task<int> UpdateRefreshToken(RefreshTokens newToken, string oldTokenHash)
+        {
+            try
+            {
+                return await _repository.UpdateRefreshToken(newToken, oldTokenHash);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<RefreshTokens> VerifyRefreshToken(int userId, string hashedToken)
+        {
+            try
+            {
+                if (userId is 0 || hashedToken is null)
+                    throw new Exception("ERROR_InvalidInputs");
+
+                RefreshTokens? sqlToken = await _repository.GetRefreshToken(userId, hashedToken);
+                if (sqlToken is null || sqlToken.isRevoked || sqlToken.expiresAt < DateTime.UtcNow)
+                    throw new Exception("ERROR_InvalidToken");
+
+                return sqlToken;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

@@ -157,5 +157,72 @@ namespace AssetManager.Repository.SqlServer.Users
                 throw;
             }
         }
+
+
+        public async Task<int> CreateRefreshToken(RefreshTokens refreshToken)
+        {
+            await using var connection = new SqlConnection(connectionString);
+            var parameters = new { };
+
+            try
+            {
+                return await connection.ExecuteAsync(
+                    sqlHelper.GetSqlFromEmbeddedResource("CreateRefreshToken"),
+                    refreshToken.toInputParameters(),
+                    commandType: CommandType.Text);
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627)
+                    throw new Exception("ERROR_CreateFailed"); // DuplicateKeyException();
+
+                throw;
+            }
+        }
+
+
+        public async Task<int> UpdateRefreshToken(RefreshTokens newToken, string oldTokenHash)
+        {
+            await using var connection = new SqlConnection(connectionString);
+            var parameters = new {
+                OldTokenHash = oldTokenHash,
+                NewTokenHash = newToken.tokenHash,
+                NewTokenExpiration = newToken.expiresAt,
+                UserId = newToken.userId
+            };
+
+            try
+            {
+                return await connection.ExecuteAsync(
+                    sqlHelper.GetSqlFromEmbeddedResource("UpdateRefreshToken"),
+                    parameters,
+                    commandType: CommandType.Text);
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627)
+                    throw new Exception("ERROR_CreateFailed"); // DuplicateKeyException();
+
+                throw;
+            }
+        }
+
+        public async Task<RefreshTokens> GetRefreshToken(int userId, string hashedToken)
+        {
+            await using var connection = new SqlConnection(connectionString);
+            var parameters = new { };
+
+            try
+            {
+                return await connection.QueryFirstAsync<RefreshTokens>(
+                    sqlHelper.GetSqlFromEmbeddedResource("GetRefreshToken"),
+                    new { UserId = userId, HashedToken = hashedToken },
+                    commandType: CommandType.Text);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

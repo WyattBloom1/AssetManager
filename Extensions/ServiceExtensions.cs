@@ -33,8 +33,8 @@ namespace AssetManager.Extensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "https://localhost:5001",
-                    ValidAudience = "https://localhost:5001",
+                    ValidIssuer = "https://localhost:5001", // configuration["Api:ValidAudiences"], // "https://localhost:5001",
+                    ValidAudience = "https://localhost:5001", //configuration["Api:ValidAudiences"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SecurityKey"]))
                 };
             });

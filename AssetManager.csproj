@@ -22,10 +22,12 @@
     <None Remove="Repository\SqlServer\AccountTypes\Sql\GetById.sql" />
     <None Remove="Repository\SqlServer\AccountTypes\Sql\Update.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\Create.sql" />
+    <None Remove="Repository\SqlServer\Users\Sql\CreateRefreshToken.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\Delete.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\GetAll.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\GetById.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\GetByUserName.sql" />
+    <None Remove="Repository\SqlServer\Users\Sql\GetRefreshToken.sql" />
     <None Remove="Repository\SqlServer\Users\Sql\Update.sql" />
     <None Remove="Repository\SqlServer\TemplateRepository\Sql\Create.sql" />
     <None Remove="Repository\SqlServer\TemplateRepository\Sql\Delete.sql" />
@@ -38,6 +40,7 @@
     <None Remove="Repository\SqlServer\Transactions\Sql\GetById.sql" />
     <None Remove="Repository\SqlServer\Transactions\Sql\TransactionValidation.sql" />
     <None Remove="Repository\SqlServer\Transactions\Sql\Update.sql" />
+    <None Remove="Repository\SqlServer\Users\Sql\UpdateRefreshToken.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,9 +55,12 @@
     <EmbeddedResource Include="Repository\SqlServer\AccountTypes\Sql\GetAll.sql" />
     <EmbeddedResource Include="Repository\SqlServer\AccountTypes\Sql\GetById.sql" />
     <EmbeddedResource Include="Repository\SqlServer\AccountTypes\Sql\Update.sql" />
+    <EmbeddedResource Include="Repository\SqlServer\Users\Sql\UpdateRefreshToken.sql" />
+    <EmbeddedResource Include="Repository\SqlServer\Users\Sql\CreateRefreshToken.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\Create.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\Delete.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\GetAll.sql" />
+    <EmbeddedResource Include="Repository\SqlServer\Users\Sql\GetRefreshToken.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\GetByUserName.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\GetById.sql" />
     <EmbeddedResource Include="Repository\SqlServer\Users\Sql\Update.sql" />

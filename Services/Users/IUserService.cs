@@ -10,5 +10,11 @@ namespace AssetManager.Services.Users
         }
 
         Task<User> GetByUserName(UserLogin user);
+
+        Task<int> CreateRefreshToken(RefreshTokens refreshToken);
+
+        Task<int> UpdateRefreshToken(RefreshTokens newToken, string oldTokenHash);
+
+        Task<RefreshTokens> VerifyRefreshToken(int userId, string hashedToken);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AssetManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using AssetManager.Helpers.PasswordHelper;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AssetManager.Controllers
 {
@@ -28,6 +30,18 @@ namespace AssetManager.Controllers
         {
             return Ok("Hashed Pass: " + _passwordHelper.VerifyPassword(password, hashedPass, salt));
             //return Ok("SUCCESS");
+        }
+
+        [HttpGet("profile")]
+        [Authorize] // Ensures the user is authenticated
+        public IActionResult GetProfile()
+        {
+            // Access claims directly from the User object
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userName = User.FindFirst("userName")?.Value; // Custom claim name
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            return Ok(new { UserId = userId, Name = userName, Role = userRole });
         }
 
         //[HttpGet("{accountId}")]
