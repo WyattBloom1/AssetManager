@@ -36,6 +36,9 @@ builder.Services.AddTransient<AuthMiddleware>();
 // Configure Authentication
 builder.Services.ConfigureAuthentication(builder.Configuration);
 
+// Configure CORS
+builder.Services.ConfigureCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,6 +49,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

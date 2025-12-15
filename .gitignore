@@ -283,7 +283,7 @@ FakesAssemblies/
 
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
-node_modules/
+node_modules/*
 
 # Visual Studio 6 build log
 *.plg
@@ -361,3 +361,34 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+.DS_Store
+dist
+build
+public
+dist-ssr
+*.local
+
+yarn-error.log*
+.pnpm-debug.log*
+
+# # TS
+*.tsbuildinfo
+
+# # Turbo
+.turbo
+
+.vscode/settings.json
+
+stats.*
+
+# # Test
+coverage/
+
+# # ESLint
+.eslintcache
+
+.tanstack
+Client/node_modules/
+Client/.husky/
+Client/public/assets

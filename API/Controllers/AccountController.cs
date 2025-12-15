@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AssetManager.Controllers
 {
-    [ApiController, Authorize]
+    [ApiController]
+    //[Authorize]
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
@@ -18,7 +19,7 @@ namespace AssetManager.Controllers
             _accountService = accountService;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         /// <summary>
         ///  Returns all the orders of Customer. Assume we have one customer for now
         /// </summary>
